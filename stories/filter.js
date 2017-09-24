@@ -1,34 +1,23 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
 import PropTypes from 'prop-types'
 
 import Relisted from '../src'
-import { FilteredList } from './filter'
 
-storiesOf('Relisted', module)
-  .add('empty data', () => <BasicList columns={columns} data={[]} />)
-  .add('with data', () => <BasicList columns={columns} data={data} />)
-  .add('filter', () => <FilteredList columns={columns} data={data} />)
-
-const columns = [
-  { name: 'id', text: 'ID' },
-  { name: 'title', text: 'Title' },
-  { name: 'foo', text: 'Foo' },
-  { name: 'bar', text: 'Bar' },
-]
-
-const data = [
-  { id: 1, title: 'Item #1', foo: 'Foo', bar: 'Bar' },
-  { id: 2, title: 'Item #2', foo: 'Foo', bar: 'Bar' },
-  { id: 3, title: 'Item #3', foo: 'Foo', bar: 'Bar' },
-  { id: 4, title: 'Item #4', foo: 'Foo', bar: 'Bar' },
-]
-
-function BasicList({ columns, data }) {
+export function FilteredList({ columns, data }) {
   return (
     <Relisted>
-      {({ getColumnProps }) => (
+      {({ getColumnProps, getFilterProps, getClearProps }) => (
         <div style={containerStyle}>
+          <div style={searchStyle}>
+            <input
+              {...getFilterProps({
+                type: 'text',
+                style: searchFieldStyle,
+                placeholder: 'Filter...',
+              })}
+            />
+            <button {...getClearProps({ type: 'button' })}>X</button>
+          </div>
           <div style={headerStyle}>
             {columns.map(c => (
               <div key={c.name} style={columnStyle} {...getColumnProps()}>
@@ -57,7 +46,7 @@ function BasicList({ columns, data }) {
   )
 }
 
-BasicList.propTypes = {
+FilteredList.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
 }
@@ -115,4 +104,19 @@ const cellStyle = {
   paddingTop: '0.25rem',
   paddingBottom: '0.25rem',
   paddingLeft: '0.25rem',
+}
+
+const searchStyle = {
+  width: '100%',
+  display: 'flex',
+  borderBottom: '1px solid #cdcdcd',
+}
+
+const searchFieldStyle = {
+  flex: 1,
+  height: '40px',
+  border: 'none',
+  fontSize: '1.5rem',
+  paddingLeft: '0.5rem',
+  outline: 'none',
 }
