@@ -12,11 +12,26 @@ class Relisted extends React.Component {
     filterValue: '',
   }
 
+  filterData = (data, columns) => {
+    return data.filter(row => {
+      const keys = columns.map(c => c.name)
+      return keys.some(key => {
+        const check = row[key]
+        if (typeof check === 'string')
+          return check
+            .toLowerCase()
+            .includes(this.state.filterValue.toLowerCase())
+        return check === this.state.filterValue
+      })
+    })
+  }
+
   propGetters() {
     return {
       getColumnProps: () => {},
       getFilterProps: this.getFilterProps,
       getClearProps: this.getClearProps,
+      filterData: this.filterData,
     }
   }
 

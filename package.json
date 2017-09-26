@@ -7,8 +7,8 @@
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "peerDependencies": {
-    "react": ">=15",
-    "prop-types": ">=15"
+    "prop-types": ">=15",
+    "react": ">=15"
   },
   "devDependencies": {
     "@storybook/react": "^3.2.8",
