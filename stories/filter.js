@@ -1,54 +1,83 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import debounce from 'lodash.debounce'
 
 import Relisted from '../src'
 
-export function FilteredList({ columns, data }) {
-  return (
-    <Relisted>
-      {({ getColumnProps, getFilterProps, getClearProps }) => (
-        <div style={containerStyle}>
-          <div style={searchStyle}>
-            <input
-              {...getFilterProps({
-                type: 'text',
-                style: searchFieldStyle,
-                placeholder: 'Filter...',
-              })}
-            />
-            <button {...getClearProps({ type: 'button' })}>X</button>
-          </div>
-          <div style={headerStyle}>
-            {columns.map(c => (
-              <div key={c.name} style={columnStyle} {...getColumnProps()}>
-                {c.text}
-              </div>
-            ))}
-          </div>
-          {data.length > 0 ? (
-            <div style={bodyStyle}>
-              {data.map(row => (
-                <div style={rowStyle} key={row.id}>
-                  {columns.map(c => (
-                    <div key={c.name} style={cellStyle}>
-                      {row[c.name]}
-                    </div>
-                  ))}
+//export function FilteredList({ columns, data }) {
+export class FilteredList extends React.Component {
+  static propTypes = {
+    columns: PropTypes.array.isRequired,
+    data: PropTypes.array.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      data: props.data,
+    }
+  }
+
+  filter = debounce(val => {
+    const data = this.props.data.filter(row => {
+      const keys = this.props.columns.map(c => c.name)
+      return keys.some(key => {
+        const check = row[key]
+        if (typeof check === 'string')
+          return check.toLowerCase().includes(val.toLowerCase())
+        return check === val
+      })
+    })
+    this.setState({ data })
+  }, 500)
+
+  render() {
+    const { columns } = this.props
+    const { data } = this.state
+    return (
+      <Relisted>
+        {({ getColumnProps, getFilterProps, getClearProps }) => (
+          <div style={containerStyle}>
+            <div style={searchStyle}>
+              <input
+                {...getFilterProps({
+                  type: 'text',
+                  style: searchFieldStyle,
+                  placeholder: 'Filter...',
+                  onChange: evt =>
+                    this.filter(evt.target.value, this.props.data, columns),
+                })}
+              />
+              <button {...getClearProps({ type: 'button' })}>X</button>
+            </div>
+            <div style={headerStyle}>
+              {columns.map(c => (
+                <div key={c.name} style={columnStyle} {...getColumnProps()}>
+                  {c.text}
                 </div>
               ))}
             </div>
-          ) : (
-            <div style={centeredStyle}>Empty Data</div>
-          )}
-        </div>
-      )}
-    </Relisted>
-  )
-}
-
-FilteredList.propTypes = {
-  columns: PropTypes.array.isRequired,
-  data: PropTypes.array.isRequired,
+            {data.length > 0 ? (
+              <div style={bodyStyle}>
+                {data.map(row => (
+                  <div style={rowStyle} key={row.id}>
+                    {columns.map(c => (
+                      <div key={c.name} style={cellStyle}>
+                        {row[c.name]}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div style={centeredStyle}>Empty Data</div>
+            )}
+          </div>
+        )}
+      </Relisted>
+    )
+  }
 }
 
 const containerStyle = {
