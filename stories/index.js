@@ -4,24 +4,42 @@ import PropTypes from 'prop-types'
 
 import Relisted from '../src'
 import { FilteredList } from './filter'
+import { SortedList } from './sorting'
+import {
+  containerStyle,
+  headerStyle,
+  columnStyle,
+  bodyStyle,
+  rowStyle,
+  cellStyle,
+  centeredStyle,
+} from './styles'
 
 storiesOf('Relisted', module)
   .add('empty data', () => <BasicList columns={columns} data={[]} />)
   .add('with data', () => <BasicList columns={columns} data={data} />)
   .add('filter', () => <FilteredList columns={columns} data={data} />)
+  .add('sort', () => <SortedList columns={columns} data={data} sortBy="cost" />)
 
 const columns = [
-  { name: 'id', text: 'ID' },
-  { name: 'title', text: 'Title' },
-  { name: 'foo', text: 'Foo' },
-  { name: 'bar', text: 'Bar' },
+  { name: 'cost', text: 'Cost' },
+  { name: 'name', text: 'Name' },
+  { name: 'hero', text: 'Hero' },
+  { name: 'rarity', text: 'Rarity' },
 ]
 
 const data = [
-  { id: 1, title: 'Item #1', foo: 'Foo', bar: 'Bar' },
-  { id: 2, title: 'Item #2', foo: 'Foo', bar: 'Bar' },
-  { id: 3, title: 'Item #3', foo: 'Foo', bar: 'Bar' },
-  { id: 4, title: 'Item #4', foo: 'Foo', bar: 'Bar' },
+  { cost: 1, name: 'Mistress of Mixtures', hero: 'Neutral', rarity: 'Common' },
+  { cost: 2, name: 'Frostbolt', hero: 'Mage', rarity: 'Basic' },
+  { cost: 3, name: 'Jade Blossom', hero: 'Druid', rarity: 'Common' },
+  { cost: 6, name: 'Dragonfire Potion', hero: 'Priest', rarity: 'Epic' },
+  { cost: 4, name: 'Mortal Strike', hero: 'Warrior', rarity: 'Rare' },
+  {
+    cost: 8,
+    name: 'Ragnaros, Lightlord',
+    hero: 'Paladin',
+    rarity: 'Legendary',
+  },
 ]
 
 function BasicList({ columns, data }) {
@@ -39,7 +57,7 @@ function BasicList({ columns, data }) {
           {data.length > 0 ? (
             <div style={bodyStyle}>
               {data.map(row => (
-                <div style={rowStyle} key={row.id}>
+                <div style={rowStyle} key={row.name}>
                   {columns.map(c => (
                     <div key={c.name} style={cellStyle}>
                       {row[c.name]}
@@ -60,59 +78,4 @@ function BasicList({ columns, data }) {
 BasicList.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
-}
-
-const containerStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '500px',
-  height: '500px',
-  border: '1px solid blue',
-}
-
-const headerStyle = {
-  display: 'flex',
-  width: '100%',
-  fontSize: '0.75rem',
-  fontWeight: 'bold',
-  borderBottom: '1px solid #cdcdcd',
-}
-
-const columnStyle = {
-  flex: 1,
-  paddingTop: '0.75rem',
-  paddingBottom: '0.75rem',
-  paddingLeft: '0.25rem',
-  cursor: 'pointer',
-}
-
-const bodyStyle = {
-  width: '100%',
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-}
-
-const centeredStyle = {
-  display: 'flex',
-  width: '100%',
-  flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-}
-
-const rowStyle = {
-  width: '100%',
-  display: 'flex',
-  backgroundColor: 'transparent',
-  fontSize: '0.75rem',
-  flexShrink: '0',
-  cursor: 'pointer',
-}
-
-const cellStyle = {
-  flex: 1,
-  paddingTop: '0.25rem',
-  paddingBottom: '0.25rem',
-  paddingLeft: '0.25rem',
 }

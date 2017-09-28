@@ -1,15 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import orderBy from 'lodash/orderBy'
 
 const callAll = (...fns) => (...args) => fns.forEach(fn => fn && fn(...args))
 
 class Relisted extends React.Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
+    sortBy: PropTypes.string,
   }
 
-  state = {
-    filterValue: '',
+  static defaultProps = {
+    sortBy: '',
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      filterValue: '',
+      sortBy: props.sortBy,
+      sortAscending: true,
+    }
   }
 
   filterData = (data, columns) => {
@@ -26,14 +38,40 @@ class Relisted extends React.Component {
     })
   }
 
+  sortData = data => {
+    return orderBy(
+      data,
+      [this.state.sortBy],
+      [this.state.sortAscending ? 'asc' : 'desc']
+    )
+  }
+
+  columnClick = columnName => {
+    this.setState(prevState => {
+      const state = { sortBy: columnName }
+      if (prevState.sortBy === state.sortBy) {
+        state.sortAscending = !prevState.sortAscending
+      } else {
+        state.sortAscending = true
+      }
+      return state
+    })
+  }
+
   propGetters() {
     return {
-      getColumnProps: () => {},
+      getColumnProps: this.getColumnProps,
       getFilterProps: this.getFilterProps,
       getClearProps: this.getClearProps,
       filterData: this.filterData,
+      sortData: this.sortData,
     }
   }
+
+  getColumnProps = ({ name, ...rest } = {}) => ({
+    ...rest,
+    onClick: callAll(rest.onClick, () => this.columnClick(name)),
+  })
 
   getFilterProps = (props = {}) => ({
     value: this.state.filterValue,
