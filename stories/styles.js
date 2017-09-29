@@ -20,6 +20,8 @@ export const columnStyle = {
   paddingBottom: '0.75rem',
   paddingLeft: '0.25rem',
   cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
 }
 
 export const bodyStyle = {

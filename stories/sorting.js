@@ -7,13 +7,23 @@ import * as styles from './styles'
 export function SortedList({ columns, data, sortBy = '' }) {
   return (
     <Relisted sortBy={sortBy}>
-      {({ getColumnProps, sortData }) => (
+      {({ getColumnProps, sortData, sortBy, sortAscending }) => (
         <div style={styles.containerStyle}>
           <div style={styles.headerStyle}>
             {columns.map(c => (
-              <Column key={c.name} {...getColumnProps({ name: c.name })}>
-                {c.text}
-              </Column>
+              <div
+                key={c.name}
+                {...getColumnProps({ name: c.name, style: styles.columnStyle })}
+              >
+                {c.text}{' '}
+                {sortBy === c.name ? sortAscending ? (
+                  <span>⬆</span>
+                ) : (
+                  <span>⬇</span>
+                ) : (
+                  <span style={{ color: 'transparent' }}>⬇</span>
+                )}
+              </div>
             ))}
           </div>
           {data.length > 0 && (

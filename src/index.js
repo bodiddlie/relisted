@@ -65,6 +65,8 @@ class Relisted extends React.Component {
       getClearProps: this.getClearProps,
       filterData: this.filterData,
       sortData: this.sortData,
+      sortBy: this.state.sortBy,
+      sortAscending: this.state.sortAscending,
     }
   }
 
