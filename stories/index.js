@@ -19,7 +19,14 @@ storiesOf('Relisted', module)
   .add('empty data', () => <BasicList columns={columns} data={[]} />)
   .add('with data', () => <BasicList columns={columns} data={data} />)
   .add('filter', () => <FilteredList columns={columns} data={data} />)
-  .add('sort', () => <SortedList columns={columns} data={data} sortBy="cost" />)
+  .add('sort', () => (
+    <SortedList
+      columns={columns}
+      data={data}
+      sortBy="cost"
+      sortAscending={false}
+    />
+  ))
 
 const columns = [
   { name: 'cost', text: 'Cost' },

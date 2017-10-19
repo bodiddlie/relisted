@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import Relisted from '../src'
 import * as styles from './styles'
 
-export function SortedList({ columns, data, sortBy = '' }) {
+export function SortedList({ columns, data, sortBy = '', sortAscending }) {
   return (
-    <Relisted sortBy={sortBy}>
+    <Relisted sortBy={sortBy} sortAscending={sortAscending}>
       {({ getColumnProps, sortData, sortBy, sortAscending }) => (
         <div style={styles.containerStyle}>
           <div style={styles.headerStyle}>
@@ -16,10 +16,12 @@ export function SortedList({ columns, data, sortBy = '' }) {
                 {...getColumnProps({ name: c.name, style: styles.columnStyle })}
               >
                 {c.text}{' '}
-                {sortBy === c.name ? sortAscending ? (
-                  <span>⬆</span>
-                ) : (
-                  <span>⬇</span>
+                {sortBy === c.name ? (
+                  sortAscending ? (
+                    <span>⬆</span>
+                  ) : (
+                    <span>⬇</span>
+                  )
                 ) : (
                   <span style={{ color: 'transparent' }}>⬇</span>
                 )}
@@ -49,6 +51,7 @@ SortedList.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
   sortBy: PropTypes.string,
+  sortAscending: PropTypes.bool,
 }
 
 function Column(props) {

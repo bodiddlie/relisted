@@ -47,7 +47,7 @@ var Relisted = function (_React$Component) {
     _this.state = {
       filterValue: '',
       sortBy: props.sortBy,
-      sortAscending: true
+      sortAscending: props.sortAscending
     };
     return _this;
   }
@@ -77,10 +77,12 @@ var Relisted = function (_React$Component) {
 
 Relisted.propTypes = {
   children: PropTypes.func.isRequired,
-  sortBy: PropTypes.string
+  sortBy: PropTypes.string,
+  sortAscending: PropTypes.bool
 };
 Relisted.defaultProps = {
-  sortBy: ''
+  sortBy: '',
+  sortAscending: true
 };
 
 var _initialiseProps = function _initialiseProps() {

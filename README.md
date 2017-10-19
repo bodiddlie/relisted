@@ -106,6 +106,12 @@ function App() {
 
 Pass a the name of the column you want to sort by. Used by the default filter function.
 
+### sortAscending
+
+> `bool` | defaults to true
+
+Determines the sort direction on load.
+
 ### children
 
 > `function({})` | *required*

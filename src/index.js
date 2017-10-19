@@ -8,10 +8,12 @@ class Relisted extends React.Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
     sortBy: PropTypes.string,
+    sortAscending: PropTypes.bool,
   }
 
   static defaultProps = {
     sortBy: '',
+    sortAscending: true,
   }
 
   constructor(props) {
@@ -20,7 +22,7 @@ class Relisted extends React.Component {
     this.state = {
       filterValue: '',
       sortBy: props.sortBy,
-      sortAscending: true,
+      sortAscending: props.sortAscending,
     }
   }
 
