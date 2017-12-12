@@ -6,7 +6,7 @@ React Primitives to build a sortable, filterable, data-list.
 
 Relisted is a component that manages user interaction for sorting and filtering
 a list of data, while allowing you to retain complete control over the rendering
-of the list. 
+of the list.
 
 ## What this is NOT
 
@@ -114,7 +114,7 @@ Determines the sort direction on load.
 
 ### children
 
-> `function({})` | *required*
+> `function({})` | _required_
 
 This function is called by the render of `relisted` and is passed an object. Read more below.
 
@@ -135,7 +135,7 @@ sorting.
 
 Required properties:
 
-- `name`: the name of the column. This name gets set as the sortBy once a column header is clicked.
+* `name`: the name of the column. This name gets set as the sortBy once a column header is clicked.
 
 #### `getFilterProps`
 
@@ -154,7 +154,7 @@ There are no requrired properties for this function.
 These are functions that provide built-in sorting and filtering of a list.
 
 | property     | type                              | description                                   |
-|--------------|-----------------------------------|-----------------------------------------------|
+| ------------ | --------------------------------- | --------------------------------------------- |
 | `filterData` | `function(data: [], columns: [])` | filters the given data using the filter state |
 | `sortData`   | `function(data: [])`              | sorts the given data using the sort state     |
 
@@ -163,9 +163,10 @@ These are functions that provide built-in sorting and filtering of a list.
 These are values that represent the current internal state of the Relisted component.
 
 | property        | type      | description                               |
-|-----------------|-----------|-------------------------------------------|
+| --------------- | --------- | ----------------------------------------- |
 | `sortBy`        | `string`  | the column name to sort by                |
 | `sortAscending` | `boolean` | whether to sort in ascending order or not |
+| `filterValue`   | `string`  | the value of the filter input             |
 
 ## Examples
 

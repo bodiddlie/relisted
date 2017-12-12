@@ -62,7 +62,8 @@ var Relisted = function (_React$Component) {
         filterData: this.filterData,
         sortData: this.sortData,
         sortBy: this.state.sortBy,
-        sortAscending: this.state.sortAscending
+        sortAscending: this.state.sortAscending,
+        filterValue: this.state.filterValue
       };
     }
   }, {
